@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Said Elhefny — Software Developer</title>
+<meta name="description" content="Said Elhefny — freelance software developer building desktop tools and automation in Java, Python, and C#. Explore projects, skills, and contact info.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #1b1d23;
+    --panel:         #212329;
+    --panel-raised:  #262830;
+    --border:        #33363f;
+    --text:          #e6e4dd;
+    --muted:         #82869a;
+    --dim:           #565a68;
+    --amber:         #e3a13f;
+    --teal:          #5db9a6;
+    --rose:          #d9707a;
+    --violet:        #9a8cd9;
+    --focus:         #e3a13f;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  :focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:2px;
+  }
+
+  code, .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- shell ---------- */
+  .window{
+    max-width:1180px;
+    margin:5vh auto;
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.6);
+    background:var(--panel);
+  }
+
+  .titlebar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:10px 16px;
+    background:var(--panel-raised);
+    border-bottom:1px solid var(--border);
+  }
+  .dots{ display:flex; gap:7px; }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .dot.r{ background:#e5645a; }
+  .dot.y{ background:#e5b750; }
+  .dot.g{ background:#5cc26a; }
+  .titlebar-name{
+    margin:0 auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+
+  .body-grid{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    min-height:640px;
+  }
+
+  /* ---------- sidebar / file tree ---------- */
+  .sidebar{
+    background:var(--panel);
+    border-right:1px solid var(--border);
+    padding:18px 0;
+  }
+  .sidebar-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.12em;
+    color:var(--dim);
+    text-transform:uppercase;
+    padding:0 18px 10px;
+  }
+  .tree{ list-style:none; margin:0; padding:0; }
+  .tree li{ margin:0; }
+  .tree button{
+    all:unset;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    width:100%;
+    padding:7px 18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+    cursor:pointer;
+    border-left:2px solid transparent;
+  }
+  .tree button:hover{ color:var(--text); background:rgba(255,255,255,.02); }
+  .tree button.active{
+    color:var(--amber);
+    border-left-color:var(--amber);
+    background:rgba(227,161,63,.07);
+  }
+  .tree .icon{ display:inline-flex; color:var(--muted); flex-shrink:0; }
+  .tree button.active .icon{ color:var(--amber); }
+  .icon svg{
+    width:14px; height:14px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    display:block;
+  }
+  .tree .nested{ padding-left:16px; }
+  .tree .folder-label{
+    display:flex; align-items:center; gap:9px;
+    padding:7px 18px 4px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .tree .folder-label .icon{ color:var(--muted); }
+
+  .sidebar-status{
+    margin-top:22px;
+    padding:14px 18px 0;
+    border-top:1px solid var(--border);
+  }
+  .sidebar-status p{
+    margin:0 0 4px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--dim);
+  }
+  .sidebar-status a{
+    color:var(--teal);
+    text-decoration:none;
+    font-size:12.5px;
+  }
+  .sidebar-status a:hover{ text-decoration:underline; }
+
+  /* ---------- tab bar ---------- */
+  .editor{ display:flex; flex-direction:column; min-width:0; }
+  .tabbar{
+    display:flex;
+    background:var(--panel);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+  }
+  .tabbar button{
+    all:unset;
+    cursor:pointer;
+    padding:11px 20px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    border-right:1px solid var(--border);
+    white-space:nowrap;
+  }
+  .tabbar button:hover{
+    color:var(--text);
+    background:rgba(255,255,255,.03);
+  }
+  .tabbar button.active{
+    color:var(--text);
+    background:var(--panel-raised);
+    box-shadow:inset 0 -2px 0 var(--amber);
+  }
+  .tabbar button.active:hover{
+    background:var(--panel-raised);
+  }
+  .tabbar button .dim-ext{ color:var(--dim); }
+
+  /* ---------- pane ---------- */
+  .pane-wrap{
+    flex:1;
+    display:flex;
+    background:var(--panel-raised);
+  }
+  .gutter{
+    padding:28px 0;
+    text-align:right;
+    color:var(--dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    line-height:1.9;
+    user-select:none;
+    min-width:44px;
+    border-right:1px solid var(--border);
+  }
+  .gutter span{ display:block; padding-right:14px; }
+
+  .pane{
+    padding:28px 34px 40px;
+    line-height:1.9;
+    flex:1;
+    min-width:0;
+  }
+  .pane section{ display:none; }
+  .pane section.active{ display:block; animation:fade .35s ease; }
+  @keyframes fade{ from{ opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  .c{ color:var(--dim); } /* comment */
+  .kw{ color:var(--rose); } /* keyword */
+  .str{ color:var(--teal); } /* string */
+  .fn{ color:var(--amber); } /* function/key */
+  .num{ color:var(--violet); }
+  .plain{ color:var(--text); }
+
+  h1.hero-line{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:clamp(20px,3vw,28px);
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--text);
+  }
+  .hero-sub{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--muted);
+    font-size:14px;
+    margin:0 0 26px;
+  }
+  .caret{
+    display:inline-block;
+    width:9px; height:1.15em;
+    background:var(--amber);
+    margin-left:2px;
+    vertical-align:-2px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  p.body-text{
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px;
+    max-width:62ch;
+    margin:0 0 16px;
+  }
+  p.body-text .kw, p.body-text .fn, p.body-text .str{ font-family:'IBM Plex Mono', monospace; font-size:14px; }
+
+  .tag-row{ display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 6px; }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    padding:4px 9px;
+    border:1px solid var(--border);
+    border-radius:5px;
+    color:var(--muted);
+  }
+
+  /* project cards */
+  .project{
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:20px 22px;
+    margin:0 0 20px;
+    background:var(--panel);
+  }
+  .project-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+  }
+  .project-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:15px;
+    color:var(--text);
+    font-weight:600;
+  }
+  .project-title .fn{ color:var(--amber); }
+  .project-link{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--teal);
+    text-decoration:none;
+    border-bottom:1px dashed var(--teal);
+  }
+  .project-link:hover{ color:var(--text); border-color:var(--text); }
+  .project p{
+    color:var(--muted);
+    font-size:14px;
+    font-family:'IBM Plex Sans', sans-serif;
+    margin:0 0 10px;
+    max-width:70ch;
+  }
+  .project ul{
+    margin:0; padding-left:18px;
+    color:var(--text);
+    font-size:13.5px;
+  }
+  .project li{ margin-bottom:4px; }
+
+  /* skills json */
+  .json-line{ font-family:'IBM Plex Mono', monospace; font-size:14px; }
+  .indent-1{ padding-left:22px; }
+  .indent-2{ padding-left:44px; }
+
+  .skill-bar-row{ display:flex; align-items:center; gap:12px; margin:3px 0; }
+  .skill-bar-track{
+    flex:1;
+    height:6px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    overflow:hidden;
+    max-width:220px;
+  }
+  .skill-bar-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--amber), var(--rose));
+  }
+
+  /* contact */
+  .contact-row{
+    display:flex;
+    gap:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    margin-bottom:10px;
+    align-items:baseline;
+    flex-wrap:wrap;
+  }
+  .contact-row .fn{ min-width:110px; }
+  .contact-row a{ color:var(--teal); text-decoration:none; }
+  .contact-row a:hover{ text-decoration:underline; }
+
+  .statusbar{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 16px;
+    background:var(--amber);
+    color:#1b1d23;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    font-weight:600;
+  }
+  .statusbar span{ opacity:.9; }
+
+  @media (max-width:760px){
+    .window{ margin:0; border-radius:0; }
+    .body-grid{ grid-template-columns:1fr; }
+    .sidebar{ display:none; }
+    .pane{ padding:22px 18px 36px; }
+    .gutter{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; scroll-behavior:auto !important; }
+    .caret{ animation:none; opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="window">
+
+  <div class="titlebar">
+    <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+    <p class="titlebar-name">said-elhefny — portfolio — visual studio code</p>
+  </div>
+
+  <div class="body-grid">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" aria-label="Section navigation">
+      <p class="sidebar-label">Explorer</p>
+      <ul class="tree" role="tablist" aria-orientation="vertical">
+        <li><button class="tab-trigger active" data-tab="about" role="tab" aria-selected="true"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> about.md</button></li>
+        <li>
+          <div class="folder-label"><span class="icon"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span> projects</div>
+          <ul class="nested">
+            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> backtester.py</button></li>
+            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> dashboard.java</button></li>
+            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> finance_tracker.py</button></li>
+            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> file_organizer.py</button></li>
+          </ul>
+        </li>
+        <li><button class="tab-trigger" data-tab="skills" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><path d="M8 3a2 2 0 0 0-2 2v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3a2 2 0 0 0 2 2"/><path d="M16 3a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2 2 2 0 0 0-2 2v3a2 2 0 0 1-2 2"/></svg></span> skills.json</button></li>
+        <li><button class="tab-trigger" data-tab="contact" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></span> contact.txt</button></li>
+      </ul>
+
+      <div class="sidebar-status">
+        <p>connected as</p>
+        <a href="https://github.com/XcharizardY" target="_blank" rel="noopener">github.com/XcharizardY</a>
+      </div>
+    </nav>
+
+    <!-- EDITOR -->
+    <div class="editor">
+      <div class="tabbar" role="tablist" aria-label="Open files">
+        <button class="tab-trigger active" data-tab="about">about<span class="dim-ext">.md</span></button>
+        <button class="tab-trigger" data-tab="projects">projects<span class="dim-ext">.js</span></button>
+        <button class="tab-trigger" data-tab="skills">skills<span class="dim-ext">.json</span></button>
+        <button class="tab-trigger" data-tab="contact">contact<span class="dim-ext">.txt</span></button>
+      </div>
+
+      <div class="pane-wrap">
+        <div class="gutter" id="gutter" aria-hidden="true"></div>
+
+        <main class="pane">
+
+          <!-- ABOUT -->
+          <section id="about" class="active">
+            <h1 class="hero-line">// Hi, I'm Said Elhefny<span class="caret"></span></h1>
+            <p class="hero-sub">Freelance Software Developer · Riyadh, Saudi Arabia</p>
+
+            <p class="body-text">
+              <span class="kw">const</span> <span class="fn">focus</span> = <span class="str">"desktop tools & automation"</span>;
+            </p>
+
+            <p class="body-text">
+              I build desktop applications and automation tools that solve real workflow problems —
+              from a historical backtesting engine for crypto markets to a full project-management
+              dashboard for freelancers. My work spans Java, Python, and C#, usually with a database
+              underneath and a clean UI on top.
+            </p>
+
+            <p class="body-text">
+              I'm currently finishing high school while taking on freelance projects through Upwork,
+              and studying C# and Unity to move some of that same "structured, data-driven"
+              thinking into game design.
+            </p>
+
+            <div class="tag-row">
+              <span class="tag">Java</span>
+              <span class="tag">Python</span>
+              <span class="tag">C#</span>
+              <span class="tag">JavaFX</span>
+              <span class="tag">SQLite</span>
+              <span class="tag">Unity</span>
+              <span class="tag">HTML / CSS / JS</span>
+            </div>
+          </section>
+
+          <!-- PROJECTS -->
+          <section id="projects">
+            <h1 class="hero-line">// Projects</h1>
+            <p class="hero-sub">a look at what I've shipped</p>
+
+            <div class="project">
+              <div class="project-head">
+                <span class="project-title"><span class="fn">01</span> CryptoBacktester</span>
+                <a class="project-link" href="https://github.com/XcharizardY/CryptoBacktester" target="_blank" rel="noopener">view on GitHub →</a>
+              </div>
+              <p>A Python-based historical backtesting engine for cryptocurrency markets. Downloads OHLCV data from exchanges, caches it locally with SQLite, and simulates trading strategies against real market history.</p>
+              <ul>
+                <li>Realistic trade execution — next-bar open, exchange fees, slippage</li>
+                <li>Gap-detection that extrapolates missing exchange timestamps</li>
+                <li>Full trade ledger with performance reporting</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">Backtesting</span>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="project-head">
+                <span class="project-title"><span class="fn">02</span> FreelanceDashboard</span>
+                <a class="project-link" href="https://github.com/XcharizardY/FreelanceDashboard" target="_blank" rel="noopener">view on GitHub →</a>
+              </div>
+              <p>A desktop project-management application for freelancers — manages projects, tracks time, and handles client invoicing, built entirely in Java with a local SQLite store.</p>
+              <ul>
+                <li>Modern UI with JavaFX, styled using AtlantaFX</li>
+                <li>Clean architecture, managed with Apache Maven</li>
+                <li>Custom validation logic and FXML layouts</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Java</span><span class="tag">JavaFX</span><span class="tag">SQLite</span><span class="tag">Maven</span>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="project-head">
+                <span class="project-title"><span class="fn">03</span> Finance Tracker Pro</span>
+                <a class="project-link" href="https://github.com/XcharizardY/FinanceTracker" target="_blank" rel="noopener">view on GitHub →</a>
+              </div>
+              <p>A desktop personal finance manager built with PyQt6, pandas, and matplotlib. Tracks income, expenses, savings, accounts, and categories with a live dashboard and charts, plus optional AI-powered insights via the OpenAI API and a local offline fallback engine.</p>
+              <ul>
+                <li>CSV import, manual entry, and multi-account support</li>
+                <li>Income/expense trend chart and savings-goal tracking</li>
+                <li>Autosave with session restore between launches</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Python</span><span class="tag">PyQt6</span><span class="tag">pandas</span><span class="tag">matplotlib</span>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="project-head">
+                <span class="project-title"><span class="fn">04</span> FileOrganizerStealth</span>
+                <a class="project-link" href="https://github.com/XcharizardY/FileOrganizerStealth" target="_blank" rel="noopener">view on GitHub →</a>
+              </div>
+              <p>A background-running PyQt6 desktop utility that watches high-traffic folders and automatically routes files to custom local or cloud destinations by type — controlled entirely from the Windows system tray.</p>
+              <ul>
+                <li>Smart System Scan to auto-detect Windows/OneDrive folders</li>
+                <li>Chronological sub-sorting by year/month</li>
+                <li>Collision handling and safety nets for locked files</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Python</span><span class="tag">PyQt6</span><span class="tag">Automation</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- SKILLS -->
+          <section id="skills">
+            <h1 class="hero-line">// Skills</h1>
+            <p class="hero-sub">skills.json</p>
+
+            <div class="json-line plain">{</div>
+            <div class="json-line indent-1"><span class="fn">"languages"</span>: [<span class="str">"Java"</span>, <span class="str">"Python"</span>, <span class="str">"C#"</span>, <span class="str">"HTML/CSS/JS"</span>],</div>
+            <div class="json-line indent-1"><span class="fn">"frameworks"</span>: [<span class="str">"JavaFX"</span>, <span class="str">"AtlantaFX"</span>, <span class="str">"Unity"</span>],</div>
+            <div class="json-line indent-1"><span class="fn">"data"</span>: [<span class="str">"SQLite"</span>, <span class="str">"Maven"</span>],</div>
+            <div class="json-line indent-1"><span class="fn">"languages_spoken"</span>: [<span class="str">"Arabic"</span>, <span class="str">"English"</span>],</div>
+            <div class="json-line indent-1"><span class="fn">"proficiency"</span>: {</div>
+
+            <div style="margin:14px 0 4px 44px; max-width:340px;">
+              <div class="skill-bar-row"><span class="mono" style="width:64px;font-size:12.5px;color:var(--muted)">Java</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%"></div></div></div>
+              <div class="skill-bar-row"><span class="mono" style="width:64px;font-size:12.5px;color:var(--muted)">Python</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%"></div></div></div>
+              <div class="skill-bar-row"><span class="mono" style="width:64px;font-size:12.5px;color:var(--muted)">C#</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:45%"></div></div></div>
+              <div class="skill-bar-row"><span class="mono" style="width:64px;font-size:12.5px;color:var(--muted)">HTML/CSS</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div></div>
+            </div>
+
+            <div class="json-line indent-1">},</div>
+            <div class="json-line indent-1"><span class="fn">"currently_learning"</span>: <span class="str">"Unity & 3D game architecture"</span></div>
+            <div class="json-line plain">}</div>
+          </section>
+
+          <!-- CONTACT -->
+          <section id="contact">
+            <h1 class="hero-line">// Contact</h1>
+            <p class="hero-sub">contact.txt</p>
+
+            <div class="contact-row"><span class="fn">email</span><a href="mailto:said.m.n.w.o@gmail.com">said.m.n.w.o@gmail.com</a></div>
+            <div class="contact-row"><span class="fn">github</span><a href="https://github.com/XcharizardY" target="_blank" rel="noopener">github.com/XcharizardY</a></div>
+            <div class="contact-row"><span class="fn">linkedin</span><a href="https://www.linkedin.com/in/saidelhefny" target="_blank" rel="noopener">linkedin.com/in/saidelhefny</a></div>
+            <div class="contact-row"><span class="fn">upwork</span><a href="https://www.upwork.com/freelancers/~01c6599680ea201946" target="_blank" rel="noopener">hire me on Upwork →</a></div>
+            <div class="contact-row"><span class="fn">location</span><span class="plain" style="color:var(--muted)">Riyadh, Saudi Arabia</span></div>
+
+            <p class="body-text" style="margin-top:22px;">
+              <span class="kw">if</span> (project.<span class="fn">needsBuilding</span>()) { <span class="fn">reachOut</span>(<span class="str">"said.m.n.w.o@gmail.com"</span>); }
+            </p>
+          </section>
+
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="statusbar">
+    <span id="status-left">HTML · CSS · JS — built by hand, no frameworks</span>
+    <span id="status-right">UTF-8 · Ln 1, Col 1</span>
+  </div>
+</div>
+
+<script>
+  const triggers = document.querySelectorAll('.tab-trigger');
+  const sections = document.querySelectorAll('.pane section');
+  const gutter = document.getElementById('gutter');
+  const statusRight = document.getElementById('status-right');
+
+  const lineCounts = { about: 14, projects: 44, skills: 16, contact: 10 };
+
+  function buildGutter(id){
+    const n = lineCounts[id] || 14;
+    let html = '';
+    for(let i=1;i<=n;i++) html += `<span>${i}</span>`;
+    gutter.innerHTML = html;
+  }
+
+  function activate(id){
+    triggers.forEach(t => {
+      const on = t.dataset.tab === id;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    sections.forEach(s => s.classList.toggle('active', s.id === id));
+    buildGutter(id);
+    statusRight.textContent = `UTF-8 · ${id}.${id === 'about' ? 'md' : id === 'projects' ? 'js' : id === 'skills' ? 'json' : 'txt'}`;
+  }
+
+  triggers.forEach(t => t.addEventListener('click', () => activate(t.dataset.tab)));
+
+  buildGutter('about');
+</script>
+
+</body>
+</html>
