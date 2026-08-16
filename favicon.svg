@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Code icon">
-  <rect width="64" height="64" rx="12" fill="#1b1d23"/>
-  <text x="50%" y="50%" fill="#E3A13F" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="26" text-anchor="middle" dominant-baseline="middle">&lt;/&gt;</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 100" width="150" height="100">
+  <text 
+    x="50%" 
+    y="50%" 
+    dominant-baseline="middle" 
+    text-anchor="middle" 
+    font-family="Consolas, 'Courier New', monospace" 
+    font-size="64" 
+    font-weight="bold" 
+    fill="#E3A13F">
+    &lt;/&gt;
+  </text>
 </svg>
