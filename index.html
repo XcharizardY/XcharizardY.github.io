@@ -2,6 +2,31 @@
 <html lang="en">
 <head>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://xcharizardy.github.io/">
+<meta name="theme-color" content="#1b1d23">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://xcharizardy.github.io/">
+<meta property="og:title" content="Said Elhefny — Software Developer">
+<meta property="og:description" content="C++ and Python systems, automation tools, and desktop applications. Incoming Computer Science student, open to junior software engineering roles.">
+<meta property="og:image" content="https://xcharizardy.github.io/og-image.png">
+<meta property="og:image:alt" content="Said Elhefny's portfolio, styled like a code editor">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Said Elhefny",
+  "jobTitle": "Software Developer",
+  "url": "https://xcharizardy.github.io/",
+  "email": "mailto:said.m.n.w.o@gmail.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Riyadh", "addressCountry": "SA" },
+  "knowsLanguage": ["ar", "en"],
+  "sameAs": [
+    "https://github.com/XcharizardY",
+    "https://www.linkedin.com/in/saidelhefny"
+  ]
+}
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Said Elhefny — Software Developer</title>
@@ -16,8 +41,8 @@
     --panel-raised:  #262830;
     --border:        #33363f;
     --text:          #e6e4dd;
-    --muted:         #82869a;
-    --dim:           #565a68;
+    --muted:         #a3a7ba;
+    --dim:           #888da0;
     --amber:         #e3a13f;
     --teal:          #5db9a6;
     --rose:          #d9707a;
@@ -219,10 +244,9 @@
   .kw{ color:var(--rose); } /* keyword */
   .str{ color:var(--teal); } /* string */
   .fn{ color:var(--amber); } /* function/key */
-  .num{ color:var(--violet); }
   .plain{ color:var(--text); }
 
-  h1.hero-line{
+  .hero-line{
     font-family:'IBM Plex Mono', monospace;
     font-size:clamp(20px,3vw,28px);
     font-weight:600;
@@ -309,25 +333,25 @@
   }
   .project li{ margin-bottom:4px; }
 
+  /* featured projects (about) */
+  .featured{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0 6px; }
+  .featured a{
+    display:block; text-decoration:none;
+    border:1px solid var(--border); border-radius:8px;
+    padding:14px 16px; background:var(--panel);
+    color:var(--text);
+  }
+  .featured a:hover{ border-color:var(--amber); }
+  .featured .f-name{ display:block; font-family:'IBM Plex Mono', monospace; font-size:14px; font-weight:600; color:var(--amber); margin-bottom:6px; }
+  .featured .f-desc{ display:block; font-size:13px; line-height:1.55; color:var(--muted); }
+  .featured .f-stack{ display:block; margin-top:8px; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--dim); }
+  .featured-label{ margin:26px 0 0; font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--dim); }
+
   /* skills json */
   .json-line{ font-family:'IBM Plex Mono', monospace; font-size:14px; }
   .indent-1{ padding-left:22px; }
   .indent-2{ padding-left:44px; }
 
-  .skill-bar-row{ display:flex; align-items:center; gap:12px; margin:3px 0; }
-  .skill-bar-track{
-    flex:1;
-    height:6px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:4px;
-    overflow:hidden;
-    max-width:220px;
-  }
-  .skill-bar-fill{
-    height:100%;
-    background:linear-gradient(90deg, var(--amber), var(--rose));
-  }
 
   /* contact */
   .contact-row{
@@ -355,12 +379,93 @@
   }
   .statusbar span{ opacity:.9; }
 
+  /* ---------- titlebar actions, buttons ---------- */
+  .titlebar-actions{ display:flex; gap:8px; }
+  .kbd-btn{
+    all:unset; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--muted); border:1px solid var(--border); border-radius:4px; padding:2px 8px;
+  }
+  .kbd-btn:hover{ color:var(--text); border-color:var(--muted); }
+  .btn{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    color:var(--amber); border:1px solid var(--amber); border-radius:5px;
+    padding:6px 14px; text-decoration:none; line-height:1.5;
+  }
+  .btn:hover{ background:rgba(227,161,63,.12); }
+
+  /* ---------- project jump highlight ---------- */
+  .project{ scroll-margin-top:24px; }
+  .project.flash{ animation:flash 1.4s ease; }
+  @keyframes flash{
+    0%{ border-color:var(--amber); box-shadow:0 0 0 1px var(--amber); }
+    100%{ border-color:var(--border); box-shadow:none; }
+  }
+
+  /* ---------- command palette ---------- */
+  .overlay{
+    position:fixed; inset:0; z-index:50;
+    background:rgba(0,0,0,.45);
+    display:flex; justify-content:center; align-items:flex-start;
+    padding-top:14vh;
+  }
+  .overlay[hidden]{ display:none; }
+  .palette{
+    width:min(560px, 92vw);
+    background:var(--panel-raised);
+    border:1px solid var(--border); border-radius:8px;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.7);
+    overflow:hidden;
+  }
+  .palette input{
+    width:100%; background:var(--panel); border:0; border-bottom:1px solid var(--border);
+    color:var(--text); font-family:'IBM Plex Mono', monospace; font-size:14px;
+    padding:14px 16px; outline:none;
+  }
+  .palette input:focus-visible{ box-shadow:inset 0 -2px 0 var(--amber); }
+  .palette ul{ list-style:none; margin:0; padding:6px 0; max-height:320px; overflow-y:auto; }
+  .palette li{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:7px 16px; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--muted);
+  }
+  .palette li.sel{ background:rgba(227,161,63,.12); color:var(--amber); }
+  .palette li.empty{ cursor:default; color:var(--dim); }
+  .palette .hint{ color:var(--dim); font-size:11.5px; }
+  .palette-hint{
+    margin:0; padding:8px 16px; border-top:1px solid var(--border);
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--dim);
+  }
+
+  /* ---------- terminal panel ---------- */
+  .terminal{
+    background:var(--bg); border-top:1px solid var(--border);
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
+  }
+  .terminal[hidden]{ display:none; }
+  .terminal-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:6px 16px; border-bottom:1px solid var(--border);
+    font-size:10.5px; letter-spacing:.12em; color:var(--dim);
+  }
+  .terminal-head button{ all:unset; cursor:pointer; font-size:16px; line-height:1; color:var(--muted); padding:0 4px; }
+  .terminal-head button:hover{ color:var(--text); }
+  .terminal-out{ height:150px; overflow-y:auto; padding:8px 16px; line-height:1.6; white-space:pre-wrap; color:var(--text); }
+  .terminal-out .echo{ color:var(--muted); }
+  .terminal-line{ display:flex; align-items:center; gap:8px; padding:6px 16px 10px; }
+  .terminal-line .prompt{ color:var(--teal); white-space:nowrap; }
+  .terminal-line input{ flex:1; min-width:0; background:transparent; border:0; outline:none; color:var(--text); font:inherit; }
+
   @media (max-width:760px){
     .window{ margin:0; border-radius:0; }
     .body-grid{ grid-template-columns:1fr; }
     .sidebar{ display:none; }
+    .titlebar-name{ display:none; }
+    .titlebar-actions{ margin-left:auto; }
     .pane{ padding:22px 18px 36px; }
     .gutter{ display:none; }
+    .featured{ grid-template-columns:1fr; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -376,6 +481,10 @@
   <div class="titlebar">
     <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
     <p class="titlebar-name">said-elhefny — portfolio — visual studio code</p>
+    <div class="titlebar-actions">
+      <button class="kbd-btn" id="palette-btn" type="button" aria-label="Open command palette">Ctrl+P</button>
+      <button class="kbd-btn" id="terminal-btn" type="button" aria-label="Toggle terminal">Terminal</button>
+    </div>
   </div>
 
   <div class="body-grid">
@@ -383,23 +492,23 @@
     <!-- SIDEBAR -->
     <nav class="sidebar" aria-label="Section navigation">
       <p class="sidebar-label">Explorer</p>
-      <ul class="tree" role="tablist" aria-orientation="vertical">
-        <li><button class="tab-trigger active" data-tab="about" role="tab" aria-selected="true"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> about.md</button></li>
-        <li><button class="tab-trigger" data-tab="experience" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> experience.md</button></li>
-        <li><button class="tab-trigger" data-tab="education" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> education.md</button></li>
+      <ul class="tree">
+        <li><button class="tab-trigger active" data-tab="about" aria-current="true"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> about.md</button></li>
+        <li><button class="tab-trigger" data-tab="experience"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> experience.md</button></li>
+        <li><button class="tab-trigger" data-tab="education"><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span> education.md</button></li>
         <li>
           <div class="folder-label"><span class="icon"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span> projects</div>
           <ul class="nested">
-            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> hft_scanner.cpp</button></li>
-            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> aegis.md</button></li>
-            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> finance_tracker.py</button></li>
-            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> file_organizer.py</button></li>
-            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> backtester.py</button></li>
-            <li><button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> dashboard.java</button></li>
+            <li><button class="tab-trigger" data-tab="projects"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> hft_scanner.cpp</button></li>
+            <li><button class="tab-trigger" data-tab="projects"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> aegis.md</button></li>
+            <li><button class="tab-trigger" data-tab="projects"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> finance_tracker.py</button></li>
+            <li><button class="tab-trigger" data-tab="projects"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> file_organizer.py</button></li>
+            <li><button class="tab-trigger" data-tab="projects"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> backtester.py</button></li>
+            <li><button class="tab-trigger" data-tab="projects"><span class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> dashboard.java</button></li>
           </ul>
         </li>
-        <li><button class="tab-trigger" data-tab="skills" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><path d="M8 3a2 2 0 0 0-2 2v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3a2 2 0 0 0 2 2"/><path d="M16 3a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2 2 2 0 0 0-2 2v3a2 2 0 0 1-2 2"/></svg></span> skills.json</button></li>
-        <li><button class="tab-trigger" data-tab="contact" role="tab" aria-selected="false"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></span> contact.txt</button></li>
+        <li><button class="tab-trigger" data-tab="skills"><span class="icon"><svg viewBox="0 0 24 24"><path d="M8 3a2 2 0 0 0-2 2v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3a2 2 0 0 0 2 2"/><path d="M16 3a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2 2 2 0 0 0-2 2v3a2 2 0 0 1-2 2"/></svg></span> skills.json</button></li>
+        <li><button class="tab-trigger" data-tab="contact"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></span> contact.txt</button></li>
       </ul>
 
       <div class="sidebar-status">
@@ -410,13 +519,13 @@
 
     <!-- EDITOR -->
     <div class="editor">
-      <div class="tabbar" role="tablist" aria-label="Open files">
-        <button class="tab-trigger active" data-tab="about" role="tab" aria-selected="true">about<span class="dim-ext">.md</span></button>
-        <button class="tab-trigger" data-tab="experience" role="tab" aria-selected="false">experience<span class="dim-ext">.md</span></button>
-        <button class="tab-trigger" data-tab="education" role="tab" aria-selected="false">education<span class="dim-ext">.md</span></button>
-        <button class="tab-trigger" data-tab="projects" role="tab" aria-selected="false">projects<span class="dim-ext">.js</span></button>
-        <button class="tab-trigger" data-tab="skills" role="tab" aria-selected="false">skills<span class="dim-ext">.json</span></button>
-        <button class="tab-trigger" data-tab="contact" role="tab" aria-selected="false">contact<span class="dim-ext">.txt</span></button>
+      <div class="tabbar" role="group" aria-label="Open files">
+        <button class="tab-trigger active" data-tab="about" aria-current="true">about<span class="dim-ext">.md</span></button>
+        <button class="tab-trigger" data-tab="experience">experience<span class="dim-ext">.md</span></button>
+        <button class="tab-trigger" data-tab="education">education<span class="dim-ext">.md</span></button>
+        <button class="tab-trigger" data-tab="projects">projects<span class="dim-ext">.js</span></button>
+        <button class="tab-trigger" data-tab="skills">skills<span class="dim-ext">.json</span></button>
+        <button class="tab-trigger" data-tab="contact">contact<span class="dim-ext">.txt</span></button>
       </div>
 
       <div class="pane-wrap">
@@ -449,6 +558,25 @@
               taking on freelance projects through Upwork.
             </p>
 
+            <p class="featured-label">// selected work</p>
+            <div class="featured">
+              <a href="#projects/hftscanner">
+                <span class="f-name">HFTScanner</span>
+                <span class="f-desc">Real-time cross-exchange order-book scanner with checksum validation and a risk-gated execution engine.</span>
+                <span class="f-stack">C++20 · WebSockets</span>
+              </a>
+              <a href="#projects/aegis">
+                <span class="f-name">Aegis</span>
+                <span class="f-desc">Local-first AI knowledge platform where access control runs before retrieval, so the model never decides who sees what.</span>
+                <span class="f-stack">RAG · Ollama · MCP</span>
+              </a>
+              <a href="#projects/financetracker">
+                <span class="f-name">Finance Tracker Pro</span>
+                <span class="f-desc">Desktop finance manager with a live dashboard, multi-account CSV import, and optional AI insights.</span>
+                <span class="f-stack">Python · PyQt6 · pandas</span>
+              </a>
+            </div>
+
             <div class="tag-row">
               <span class="tag">C++</span>
               <span class="tag">Python</span>
@@ -461,11 +589,13 @@
               <span class="tag">REST APIs</span>
               <span class="tag">HTML / CSS / JS</span>
             </div>
+
+            <p class="body-text"><a class="btn" href="Said_Elhefny_Resume.pdf" download>↓ download resume.pdf</a></p>
           </section>
 
           <!-- EXPERIENCE -->
           <section id="experience">
-            <h1 class="hero-line">// Experience</h1>
+            <h2 class="hero-line">// Experience</h2>
             <p class="hero-sub">experience.md</p>
 
             <div class="project">
@@ -488,7 +618,7 @@
 
           <!-- EDUCATION -->
           <section id="education">
-            <h1 class="hero-line">// Education</h1>
+            <h2 class="hero-line">// Education</h2>
             <p class="hero-sub">education.md</p>
 
             <div class="project">
@@ -525,13 +655,13 @@
 
           <!-- PROJECTS -->
           <section id="projects">
-            <h1 class="hero-line">// Projects</h1>
+            <h2 class="hero-line">// Projects</h2>
             <p class="hero-sub">a look at what I've shipped</p>
 
             <div class="project">
               <div class="project-head">
                 <span class="project-title"><span class="fn">01</span> HFTScanner</span>
-                <span class="mono" style="font-size:12px;color:var(--muted);">Aug 2026 — Sep 2026</span>
+                <a class="project-link" href="https://github.com/XcharizardY/HFTScanner" target="_blank" rel="noopener">view on GitHub →</a>
               </div>
               <p>A cross-exchange (Binance/Kraken) HFT arbitrage scanner written in C++20. Keeps live order books from multiple exchanges synchronized and detects spread opportunities in real time, behind a risk-gated execution engine.</p>
               <ul>
@@ -636,7 +766,7 @@
 
           <!-- SKILLS -->
           <section id="skills">
-            <h1 class="hero-line">// Skills</h1>
+            <h2 class="hero-line">// Skills</h2>
             <p class="hero-sub">skills.json</p>
 
             <div class="json-line plain">{</div>
@@ -652,13 +782,14 @@
 
           <!-- CONTACT -->
           <section id="contact">
-            <h1 class="hero-line">// Contact</h1>
+            <h2 class="hero-line">// Contact</h2>
             <p class="hero-sub">contact.txt</p>
 
             <div class="contact-row"><span class="fn">email</span><a href="mailto:said.m.n.w.o@gmail.com">said.m.n.w.o@gmail.com</a></div>
             <div class="contact-row"><span class="fn">github</span><a href="https://github.com/XcharizardY" target="_blank" rel="noopener">github.com/XcharizardY</a></div>
             <div class="contact-row"><span class="fn">linkedin</span><a href="https://www.linkedin.com/in/saidelhefny" target="_blank" rel="noopener">linkedin.com/in/saidelhefny</a></div>
             <div class="contact-row"><span class="fn">upwork</span><a href="https://www.upwork.com/freelancers/~01c6599680ea201946" target="_blank" rel="noopener">hire me on Upwork →</a></div>
+            <div class="contact-row"><span class="fn">resume</span><a href="Said_Elhefny_Resume.pdf" download>download PDF ↓</a></div>
             <div class="contact-row"><span class="fn">location</span><span class="plain" style="color:var(--muted)">Riyadh, Saudi Arabia</span></div>
             <div class="contact-row"><span class="fn">status</span><span class="plain" style="color:var(--muted)">open to junior software engineering roles</span></div>
 
@@ -672,9 +803,23 @@
     </div>
   </div>
 
+  <div class="terminal" id="terminal" hidden>
+    <div class="terminal-head"><span>TERMINAL</span><button id="terminal-close" type="button" aria-label="Close terminal">×</button></div>
+    <div class="terminal-out" id="term-out" role="log" aria-live="polite"></div>
+    <label class="terminal-line"><span class="prompt">said@portfolio:~$</span><input id="term-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command"></label>
+  </div>
+
   <div class="statusbar">
     <span id="status-left">HTML · CSS · JS — built by hand, no frameworks</span>
     <span id="status-right">UTF-8 · Ln 1, Col 1</span>
+  </div>
+</div>
+
+<div class="overlay" id="palette" hidden>
+  <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+    <input id="palette-input" type="text" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-label="Search files, projects and actions" placeholder="Go to file, project or action…" autocomplete="off" spellcheck="false">
+    <ul id="palette-list" role="listbox"></ul>
+    <p class="palette-hint">↑↓ navigate · Enter open · Esc close</p>
   </div>
 </div>
 
@@ -685,6 +830,7 @@
   const statusRight = document.getElementById('status-right');
 
   const LINE_HEIGHT = 12.5 * 1.9; // matches .gutter font-size × line-height
+  const BASE_TITLE = document.title;
   let current = 'about';
   const extMap = { about: 'md', experience: 'md', education: 'md', projects: 'js', skills: 'json', contact: 'txt' };
 
@@ -696,23 +842,192 @@
     gutter.innerHTML = html;
   }
 
-  function activate(id){
+  const SLUGS = ['hftscanner', 'aegis', 'financetracker', 'fileorganizer', 'cryptobacktester', 'freelancedashboard'];
+  const FILE_TABS = { 'about.md':'about', 'experience.md':'experience', 'education.md':'education', 'projects.js':'projects', 'skills.json':'skills', 'contact.txt':'contact' };
+  const GITHUB = 'https://github.com/XcharizardY';
+  const RESUME = 'Said_Elhefny_Resume.pdf';
+  const cards = () => document.querySelectorAll('#projects .project');
+  const projectNames = () => [...cards()].map(c => c.querySelector('.project-title').textContent.replace(/^\s*\d+\s*/, '').trim());
+  const fileButtons = document.querySelectorAll('.tree .nested .tab-trigger');
+  fileButtons.forEach((b, i) => { b.dataset.card = i; });
+
+  // Switch tab; optionally jump to a project card. Keeps the URL hash in sync for deep links.
+  function activate(id, card, updateHash = true){
+    card = (card === undefined || card === null || card === '') ? null : Number(card);
     triggers.forEach(t => {
-      const on = t.dataset.tab === id;
+      const on = t.dataset.tab === id && (t.dataset.card === undefined || Number(t.dataset.card) === card);
       t.classList.toggle('active', on);
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      if (on) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current');
     });
     sections.forEach(s => s.classList.toggle('active', s.id === id));
     current = id;
     buildGutter(id);
     statusRight.textContent = `UTF-8 · ${id}.${extMap[id] || 'txt'}`;
+    document.title = id === 'about' ? BASE_TITLE : `${id}.${extMap[id] || 'txt'} — Said Elhefny`;
+    const el = card !== null ? cards()[card] : null;
+    if (el){
+      el.scrollIntoView({ block:'start' });
+      el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+    }
+    if (updateHash) history.replaceState(null, '', '#' + id + (el ? '/' + SLUGS[card] : ''));
   }
 
-  triggers.forEach(t => t.addEventListener('click', () => activate(t.dataset.tab)));
+  triggers.forEach(t => t.addEventListener('click', () => activate(t.dataset.tab, t.dataset.card)));
+
+  // Deep links: #projects, #skills, #projects/aegis ...
+  function route(){
+    const [tab, slug] = location.hash.slice(1).split('/');
+    if (!Object.prototype.hasOwnProperty.call(extMap, tab)) return false;
+    const i = SLUGS.indexOf(slug);
+    activate(tab, i >= 0 ? i : null, false);
+    return true;
+  }
+  window.addEventListener('hashchange', route);
 
   buildGutter('about');
   window.addEventListener('resize', () => buildGutter(current));
   if (document.fonts) document.fonts.ready.then(() => buildGutter(current));
+  if (!route()) activate('about', null, false);
+
+  // ---------- shared actions ----------
+  function downloadResume(){
+    const a = document.createElement('a');
+    a.href = RESUME; a.download = '';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function findProject(q){
+    q = q.toLowerCase().trim();
+    if (!q) return -1;
+    const n = parseInt(q, 10);
+    if (n >= 1 && n <= SLUGS.length) return n - 1;
+    return SLUGS.findIndex(s => s.includes(q) || q.includes(s));
+  }
+
+  // ---------- terminal (navigation only: it never runs programs) ----------
+  const term = document.getElementById('terminal');
+  const termOut = document.getElementById('term-out');
+  const termIn = document.getElementById('term-in');
+  const cmdHistory = []; let histPos = 0;
+  const termPrint = (text, cls) => {
+    const d = document.createElement('div');
+    if (cls) d.className = cls;
+    d.textContent = text;              // textContent: input is never parsed as HTML
+    termOut.appendChild(d);
+    termOut.scrollTop = termOut.scrollHeight;
+  };
+  function toggleTerminal(show){
+    const open = (show === undefined) ? term.hidden : show;
+    term.hidden = !open;
+    if (open){
+      if (!termOut.children.length) termPrint('Navigation-only terminal: it does not run programs. Type "help".', 'c');
+      termIn.focus();
+    }
+  }
+  const commands = {
+    help(){
+      ['help             list commands', 'ls               list files', 'cat <file>       open a file, e.g. cat skills.json',
+       'projects         list projects', 'open <project>   jump to a project by name or number',
+       'skills           print skills.json', 'contact          print contact details',
+       'resume           download the resume PDF', 'github           open my GitHub profile',
+       'clear            clear the terminal', 'exit             close the terminal'].forEach(l => termPrint(l));
+    },
+    ls(){ termPrint(Object.keys(FILE_TABS).join('  ')); },
+    cat(a){
+      const tab = FILE_TABS[a[0]];
+      if (!tab) return termPrint('cat: ' + (a[0] || '') + ': no such file (try ls)');
+      activate(tab, null);
+    },
+    projects(){ projectNames().forEach((n, i) => termPrint((i + 1) + '. ' + n)); termPrint('Use "open <name|number>" to jump to one.', 'c'); },
+    open(a){
+      const i = findProject(a.join(' '));
+      if (i < 0) return termPrint('open: unknown project. Try "projects".');
+      activate('projects', i);
+    },
+    skills(){ document.querySelectorAll('#skills .json-line').forEach(l => termPrint(l.textContent)); },
+    contact(){ document.querySelectorAll('#contact .contact-row').forEach(r => termPrint([...r.children].map(c => c.textContent).join(': '))); },
+    resume(){ downloadResume(); },
+    github(){ window.open(GITHUB, '_blank', 'noopener'); },
+    clear(){ termOut.textContent = ''; },
+    exit(){ toggleTerminal(false); }
+  };
+  termIn.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){
+      const line = termIn.value.trim();
+      termIn.value = '';
+      if (!line) return;
+      cmdHistory.push(line); histPos = cmdHistory.length;
+      termPrint('said@portfolio:~$ ' + line, 'echo');
+      const [cmd, ...args] = line.split(/\s+/);
+      if (Object.prototype.hasOwnProperty.call(commands, cmd)) commands[cmd](args);
+      else termPrint(cmd + ': command not found. Type "help".');
+    } else if (e.key === 'ArrowUp' && cmdHistory.length){
+      e.preventDefault(); histPos = Math.max(0, histPos - 1); termIn.value = cmdHistory[histPos];
+    } else if (e.key === 'ArrowDown' && cmdHistory.length){
+      e.preventDefault(); histPos = Math.min(cmdHistory.length, histPos + 1); termIn.value = cmdHistory[histPos] || '';
+    } else if (e.key === 'Escape'){
+      toggleTerminal(false);
+    }
+  });
+  document.getElementById('terminal-close').addEventListener('click', () => toggleTerminal(false));
+  document.getElementById('terminal-btn').addEventListener('click', () => toggleTerminal());
+
+  // ---------- command palette ----------
+  const palette = document.getElementById('palette');
+  const pInput = document.getElementById('palette-input');
+  const pList = document.getElementById('palette-list');
+  const paletteBtn = document.getElementById('palette-btn');
+  let pItems = [], pIndex = 0, lastFocus = null;
+  if (/Mac|iPhone|iPad/.test(navigator.platform)) paletteBtn.textContent = '⌘P';
+
+  const allItems = () => [
+    ...Object.entries(FILE_TABS).map(([f, t]) => ({ label:f, hint:'file', run:() => activate(t, null) })),
+    ...[...fileButtons].map((b, i) => ({ label:b.textContent.trim(), hint:'project · ' + projectNames()[i], run:() => activate('projects', i) })),
+    { label:'Toggle terminal', hint:'action · Ctrl+`', run:() => toggleTerminal() },
+    { label:'Download resume (PDF)', hint:'action', run:downloadResume },
+    { label:'Open GitHub profile', hint:'action', run:() => window.open(GITHUB, '_blank', 'noopener') },
+    { label:'Email me', hint:'action', run:() => { location.href = 'mailto:said.m.n.w.o@gmail.com'; } }
+  ];
+  // subsequence match, so "bt" finds backtester.py
+  const matches = (q, s) => { q = q.toLowerCase(); s = s.toLowerCase(); let i = 0; for (const ch of s){ if (ch === q[i]) i++; } return i === q.length; };
+
+  function renderPalette(){
+    const q = pInput.value.trim();
+    pItems = allItems().filter(it => matches(q, it.label + ' ' + it.hint));
+    pIndex = Math.min(pIndex, Math.max(pItems.length - 1, 0));
+    pList.textContent = '';
+    pItems.forEach((it, i) => {
+      const li = document.createElement('li');
+      li.id = 'pi-' + i; li.setAttribute('role', 'option'); li.setAttribute('aria-selected', String(i === pIndex));
+      if (i === pIndex) li.className = 'sel';
+      const a = document.createElement('span'); a.textContent = it.label;
+      const b = document.createElement('span'); b.className = 'hint'; b.textContent = it.hint;
+      li.append(a, b);
+      li.addEventListener('mousedown', e => { e.preventDefault(); runItem(i); });
+      pList.appendChild(li);
+    });
+    if (!pItems.length){ const li = document.createElement('li'); li.className = 'empty'; li.textContent = 'No matches'; pList.appendChild(li); }
+    pInput.setAttribute('aria-activedescendant', pItems.length ? 'pi-' + pIndex : '');
+    const sel = pList.children[pIndex]; if (sel) sel.scrollIntoView({ block:'nearest' });
+  }
+  function openPalette(){ lastFocus = document.activeElement; palette.hidden = false; pInput.value = ''; pIndex = 0; renderPalette(); pInput.focus(); }
+  function closePalette(){ palette.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  function runItem(i){ const it = pItems[i]; if (!it) return; closePalette(); it.run(); }
+
+  pInput.addEventListener('input', () => { pIndex = 0; renderPalette(); });
+  pInput.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown'){ e.preventDefault(); pIndex = Math.min(pIndex + 1, pItems.length - 1); renderPalette(); }
+    else if (e.key === 'ArrowUp'){ e.preventDefault(); pIndex = Math.max(pIndex - 1, 0); renderPalette(); }
+    else if (e.key === 'Enter'){ e.preventDefault(); runItem(pIndex); }
+    else if (e.key === 'Escape'){ e.preventDefault(); closePalette(); }
+    else if (e.key === 'Tab'){ e.preventDefault(); }
+  });
+  palette.addEventListener('mousedown', e => { if (e.target === palette) closePalette(); });
+  paletteBtn.addEventListener('click', openPalette);
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['p','k'].includes(e.key.toLowerCase())){ e.preventDefault(); if (palette.hidden) openPalette(); else closePalette(); }
+    else if (e.ctrlKey && e.key === '`'){ e.preventDefault(); toggleTerminal(); }
+  });
 </script>
 
 </body>
